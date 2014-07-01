@@ -37,12 +37,37 @@ var renderList = function(){
 	};
 
 }
+// Handle new game submissions via form
+var newGameSubmit = function(e) {
+	// prevent form from submitting which allows us to handle the functionality with JS
+	e.preventDefault();
+
+	// Grab the game title
+	var gameTitle = $(this).find('[name=title]').val()
+
+	// Grab game description
+	var gameDescription = $(this).find('[name=description]').val()
+
+	// Create a new game object
+	var newGameItem = {
+		title: gameTitle,
+		description: gameDescription
+	}
+
+	// ... and push the item to the global list
+	gamesList.push(newGameItem)
+
+	// After we update the list, re-render it
+	renderList();
+}
 
 // Wait for jQ to be ready...
 $(document).on('ready', function() {
   
 	// Kick off the rendering of preset list
 	renderList();
-
+	// Listen for submission of new game form by passing a reference ot our event handler
+	// 
+	$('#new-game').on('submit', newGameSubmit);
 
 });
